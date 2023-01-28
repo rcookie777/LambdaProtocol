@@ -10,7 +10,7 @@ const openai = new OpenAIApi(configuration);
 
 
 const CheckMessage = async (message) => {
-    const prompt = `Answer only yes or no. Is this a harmful message? ${message}`;
+    const prompt = `Answer only "yes" or "no". Is this a harmful message? ${message}`;
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: prompt,
