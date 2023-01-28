@@ -59,15 +59,16 @@ function Chat() {
 
   // save message to gun / send message
   const sendMessage = () => {
-    // a reference to the current room
-    const messagesRef = gun.get('MESSAGES')
 
-    // the message object to be sent/saved
-    const messageObject = {
-      sender: faker.name.firstName(),
-      avatar: faker.image.avatar(),
-      content: messageText,
-      timestamp: Date().substring(16, 21)
+      // a reference to the current room
+      const messagesRef = gun.get('MESSAGES')
+
+      // the message object to be sent/saved
+      const messageObject = {
+        sender: faker.name.firstName(),
+        avatar: faker.image.avatar(),
+        content: messageText,
+        timestamp: Date().substring(16, 21)
     }
 
     // this function sends/saves the message onto the network
