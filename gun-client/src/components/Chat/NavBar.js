@@ -22,7 +22,7 @@ export default function NavBar({ room }) {
             <div className="container flex flex-wrap items-center justify-between mx-auto">
                 <NavLink to='/' ><div className="flex items-center">
                     {/* <img src="https://flowbite.com/docs/images/logo.svg" className="h-6 mr-3 sm:h-9" alt="Flowbite Logo" /> */}
-                    <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Pizza</span>
+                    <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Lambda</span>
                 </div>
                 </NavLink>
                 <div className="flex items-center md:order-2">

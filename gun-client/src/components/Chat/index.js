@@ -5,6 +5,8 @@ import CheckMessage from '../auth/checkMessage'
 import { gun } from '../../gun/gun'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify';
+import { user } from '../../gun/user';
+import Identicon from 'react-identicons';
 
 
 // The messages array will hold the chat messages
@@ -32,8 +34,20 @@ function Chat() {
   const [state, dispatch] = useReducer(reducer, currentState)
   const [chatId, setChatId] = useState("")
   let routeParams = useParams();
+  const name = user.get("name");
+
 
   const rooms = gun.get("rooms");
+  const [nam] = loadName();
+   
+
+  function loadName(){
+    const names = new Set()
+    name.map().on((data, key) => {
+        names.add(data)
+    });
+    return names
+}
 
   const loadRoomMessages = (newChatId) => {
     const messagesRef = rooms.get(newChatId)
@@ -59,6 +73,7 @@ function Chat() {
     dispatch({ action: "clear" });
 
     loadRoomMessages(newChatId);
+    loadName();
   }, [routeParams]);
 
 
@@ -90,17 +105,29 @@ function Chat() {
     return formattedMessages
   }
 
+  
+
   // save message to gun / send message
   const sendMessage = async () => {
     // a reference to the current room
     const messagesRef = rooms.get(chatId);
+    if (user.is){
+      if(nam){
+        var send = nam
+      }
+    } else {
+       var send = faker.name.firstName()
+
+    }
+
+    console.log(CheckMessage(messageText))
 
     const valid = await CheckMessage(messageText)
 
     if (valid) {
         // the message object to be sent/saved
         const messageObject = {
-          sender: faker.name.firstName(),
+          sender: send,
           avatar: faker.image.avatar(),
           content: messageText,
           timestamp: Date().substring(16, 21)
@@ -110,7 +137,7 @@ function Chat() {
 
         // clear the text field after message has been sent
         setMessageText('')
-      } else {
+    } else {
         toast.error('Be Nice')
       }
   }
@@ -122,7 +149,7 @@ function Chat() {
         <ul>
           {newMessagesArray().map((msg, index) => [
             <li key={index} className='message hover:shadow-lg hover:from-white transition duration-200 ease-in-out'>
-              <img alt='avatar' src={msg.avatar} />
+                <img alt='avatar' src={msg.avatar} />
               <div>
                 {msg.content}
                 <span>{msg.sender}</span>

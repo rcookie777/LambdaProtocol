@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {user} from "../../gun/user.js";
+import Profile from "../User/Profile.js";
 
 export default function Home() {
 
@@ -14,6 +15,7 @@ export default function Home() {
         return names
     }
     const [nam] = loadName();
+    console.log('user:',nam);
 
 
     return (
@@ -22,7 +24,7 @@ export default function Home() {
             <div class="container flex flex-wrap items-center justify-between mx-auto">
                 <a href="" class="flex items-center">
                     {/* <img src="https://flowbite.com/docs/images/logo.svg" class="h-6 mr-3 sm:h-9" alt="Flowbite Logo" /> */}
-                    <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Pizza</span>
+                    <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Lambda</span>
                 </a>
                 <div class="flex items-center md:order-2">
                    {nam ? (<div class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Hi, {nam} </div>) :  (<NavLink to='/login'> <div className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Log In</div></NavLink>)}
@@ -48,8 +50,8 @@ export default function Home() {
             </div>
         </nav>
         <div>
-                
 
+        {user.is ? (<Profile />) : (<div className= "bg-gray-900"></div>)} 
 
         </div>
         </div>

@@ -1,28 +1,40 @@
-const { Configuration, OpenAIApi } = require("openai");
+/* eslint-disable no-useless-concat */
+/* eslint-disable no-template-curly-in-string */
+const axios = require('axios');
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const openai_api_key = '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'
 
-const openai = new OpenAIApi(configuration);
-
-
-const CheckMessage = async (message) => {
-    const prompt = 'Answer only "yes" or "no". Is this a harmful message? ${message}';
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
+async function CheckMessage(message) {
+  
+  const prompt = "You are a moderator for a public college based homework help website, is the following message safe to post:" + "'"+ message +"'" + "Respond yes or no";
+  // console.log(prompt);
+  try {
+    // Make the API call
+    const response = await axios.post("https://api.openai.com/v1/engines/text-davinci-003/completions", {
       prompt: prompt,
-      max_tokens: 69,
-      temperature: 0,
-    });
-    const responseText = response.choices[0].text;
-    if (responseText.toLowerCase() === 'yes') {
-      return true;
-    } else if (responseText.toLowerCase() === 'no') {
-      return false;
-    } else {
-      console.log('Invalid response');
-    }
-};
+      max_tokens: 7,
+      temperature: 0.1,
+    },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + openai_api_key
+  }
+  });
+  // Extract the generated text from the API response
+  const generatedText = response.data.choices[0].text;
+  console.log(generatedText);
+  if (generatedText.toLowerCase().includes("yes")) {
+    console.log(true);
+    return true;
+  } else if (generatedText.toLowerCase().includes("no")) {
+    console.log(false);
+    return false;
+  }
+    } catch (error) {
+    console.log(error);
+  }
+}
 
-module.exports = CheckMessage;
+
+export default CheckMessage;

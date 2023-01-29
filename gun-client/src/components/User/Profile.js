@@ -2,6 +2,7 @@
 /* eslint-disable no-unreachable */
 import React, { useEffect, useReducer } from "react";
 import { user } from "../../gun/user";
+import Identicon from 'react-identicons';
 
 
 const currentState = {
@@ -89,6 +90,8 @@ export default function Profile() {
 
     const name = user.get("name");
 
+    // const userpub  = user.is.pub;
+
 
     function loadUniData() {
         const uni = new Set()
@@ -119,7 +122,8 @@ export default function Profile() {
         });
         return names
     }
-    const [,nam] = loadName();
+    const [nam] = loadName();
+
 
 
     const newClassArray = () => {
@@ -182,9 +186,7 @@ export default function Profile() {
                     </div>
                     <div className="relative">
                         <div className="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                            </svg>
+                            <Identicon string={user.pub} size={120} />
                         </div>
                     </div>
 
@@ -264,7 +266,7 @@ export default function Profile() {
                 </div>
 
                 <div className="mt-20 text-center border-b pb-6">
-                    <div className="text-4xl font-medium text-gray-700" onClick={() => setShowNameModal(true)}> {nam} </div>
+                    <div className="text-4xl font-medium text-gray-700" onClick={() => setShowNameModal(true)}> {[nam] > 0 ? nam : (<div className="text-4xl font-medium text-gray-700"> Welcome, click here to set your username </div>) } </div>
                     {showNameModal ? (
                             <>
                                 <div
@@ -290,7 +292,7 @@ export default function Profile() {
                                             {/*body*/}
                                             <div className="relative p-6 flex-auto">
                                                 <div>
-                                                    <label for="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+                                                   
                                                     <input onChange={(e) => { setName(e.target.value) }} type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Riley Cook" required />
                                                 </div>
                                             </div>
