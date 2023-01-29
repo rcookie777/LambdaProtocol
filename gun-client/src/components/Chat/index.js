@@ -4,6 +4,8 @@ import {faker} from '@faker-js/faker'
 import CheckMessage from '../auth/checkMessage'
 import { gun } from '../../gun/gun'
 import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify';
+
 
 // The messages array will hold the chat messages
 const currentState = {
@@ -89,23 +91,28 @@ function Chat() {
   }
 
   // save message to gun / send message
-  const sendMessage = () => {
+  const sendMessage = async () => {
     // a reference to the current room
     const messagesRef = rooms.get(chatId);
 
-    // the message object to be sent/saved
-    const messageObject = {
-      sender: faker.name.firstName(),
-      avatar: faker.image.avatar(),
-      content: messageText,
-      timestamp: Date().substring(16, 21)
-    }
+    const valid = await CheckMessage(messageText)
 
-    // this function sends/saves the message onto the network
-    messagesRef.set(messageObject)
+    if (valid) {
+        // the message object to be sent/saved
+        const messageObject = {
+          sender: faker.name.firstName(),
+          avatar: faker.image.avatar(),
+          content: messageText,
+          timestamp: Date().substring(16, 21)
+        }
+        // this function sends/saves the message onto the network
+        messagesRef.set(messageObject)
 
-    // clear the text field after message has been sent
-    setMessageText('')
+        // clear the text field after message has been sent
+        setMessageText('')
+      } else {
+        toast.error('Be Nice')
+      }
   }
 
 
