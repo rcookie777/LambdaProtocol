@@ -59,20 +59,6 @@ function Chat() {
     loadRoomMessages(newChatId);
   }, [routeParams]);
 
-
-  // fires immediately the page loads
-  // useEffect(() => {
-  //   const messagesRef = rooms.get(chatId)
-  //   messagesRef.map().on(m => {
-  //     dispatch({
-  //       sender: m.sender,
-  //       avatar: m.avatar,
-  //       content: m.content,
-  //       timestamp: m.timestamp
-  //     })
-  //   })
-  // }, [routeParams])
-
   // remove duplicate messages
   const newMessagesArray = () => {
     const formattedMessages = state.messages.filter((value, index) => {
