@@ -32,6 +32,8 @@ function Chat() {
   const [messageText, setMessageText] = useState('')
   const [state, dispatch] = useReducer(reducer, currentState)
   const [chatId, setChatId] = useState("")
+  const [karma, setKarma] = useState(0)
+
   let routeParams = useParams();
   const name = user.get("name");
 
@@ -57,7 +59,8 @@ function Chat() {
           sender: m.sender,
           avatar: m.avatar,
           content: m.content,
-          timestamp: m.timestamp
+          timestamp: m.timestamp,
+          karma: m.karma
         }
       })
     });
@@ -105,6 +108,10 @@ function Chat() {
   }
 
   
+  function giveKarma() {
+    setKarma(karma+1);
+  }
+  
 
   // save message to gun / send message
   const sendMessage = async () => {
@@ -128,7 +135,8 @@ function Chat() {
           sender: faker.name.firstName(),
           avatar: faker.image.avatar(),
           content: messageText,
-          timestamp: Date().substring(16, 21)
+          timestamp: Date().substring(16, 21),
+          karma: karma
         }
         // this function sends/saves the message onto the network
         messagesRef.set(messageObject)
@@ -146,6 +154,7 @@ function Chat() {
       <div className='relative messages'>
         <ul>
           {newMessagesArray().map((msg, index) => [
+            <div onClick={()=>giveKarma()}>
             <li key={index} className='message hover:shadow-lg hover:from-white transition duration-200 ease-in-out'>
                 <img alt='avatar' src={msg.avatar} />
               <div>
@@ -154,8 +163,10 @@ function Chat() {
               </div>
               <div className='ml-3'>
                 <span>{msg.timestamp}</span>
+                <span>{msg.karma}</span>
               </div>
             </li>
+            </div>
           ])}
         </ul>
       </div>
