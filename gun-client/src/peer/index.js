@@ -9,7 +9,7 @@ peer.on("open", () => {
 
 export const viewStream = (peerId) => {
   return new Promise(async (resolve, reject) => {
-    peer.call(peerId, null, (call) => {
+    peer.call(peerId, new MediaStream(), (call) => {
       call.on("stream", (remoteStream) => {
         resolve(remoteStream);
       });

@@ -12,23 +12,9 @@ const reducer = (state, dispatched) => {
   switch (dispatched.action) {
     case "add":
       let { stream } = dispatched;
-
-      // console.log("looking in array")
-      // console.log(state.streams)
-      // console.log("for user id")
-      // console.log(stream.userId)
-      // let i = state.streams.findIndex(s => s.userId === stream.userId);
-      // console.log("result", i)
-      
-      // if (i !== -1 && stream.lastUpdated > state.streams[i].lastUpdated) {
-      //   if (i == 0) return [stream, ...state.streams.slice(1)];
-      //   return [stream, ...state.streams.slice(0, i), ...state.streams.slice(i+1)]
-      // }
-      // else {
-        return {
-          streams: [stream, ...state.streams]
-        }
-      // }
+      return {
+        streams: [stream, ...state.streams]
+      }
       break;
     case "clear":
       return { streams: [] }
@@ -49,17 +35,25 @@ export default function Streams() {
   const loadRoomStreams = (newChatId) => {
     console.log("Loading streams");
 
-    streams.map().on(u => {
-      streams.get(u).once(sdata => {
-        if (sdata && sdata.peerId) {
-          console.log("Found valid data", sdata);
+    streams.map().on(data => {
+      if (data && data.userId) {
+        console.log("Found valid data", data);
+        console.log("adding: ")
 
-          dispatch({
-            action: "add",
-            stream: { userId: u, ...sdata }
-          })
+        const streamObj = {
+          userId: data.userId,
+          peerId: data.peerId,
+          courseName: data.courseName,
+          lastUpdated: data.lastUpdated,
         }
-      });
+
+        console.log(streamObj)
+
+        dispatch({
+          action: "add",
+          stream: streamObj,
+        })
+      }
     });
   };
 
@@ -100,6 +94,7 @@ export default function Streams() {
     selfVideo.current.srcObject = videoStream;
 
     console.log("setting stream object for ", user.is.alias, JSON.stringify({
+      userId: user.is.alias,
       courseName: chatId,
       active: true,
       peerId: peer.id,
@@ -108,6 +103,7 @@ export default function Streams() {
     
     let userStream = streams.get(user.is.alias);
     userStream.put({
+      userId: user.is.alias,
       courseName: chatId,
       active: true,
       peerId: peer.id,
