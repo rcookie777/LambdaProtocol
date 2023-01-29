@@ -85,7 +85,7 @@ export default function Streams() {
         courseName: chatId,
         active: true,
         peerId: peer.id,
-        lastUpdated: (new Date()).getMilliseconds(),
+        lastUpdated: (new Date()).getTime(),
       });
     }, 5000)
   }
@@ -103,15 +103,15 @@ export default function Streams() {
       courseName: chatId,
       active: true,
       peerId: peer.id,
-      lastUpdated: (new Date()).getMilliseconds(),
+      lastUpdated: (new Date()).getTime(),
     }))
     
-    streams.set(user.is.alias);
-    streams.get(user.is.alias).put({
+    let userStream = streams.get(user.is.alias);
+    userStream.put({
       courseName: chatId,
       active: true,
       peerId: peer.id,
-      lastUpdated: (new Date()).getMilliseconds(),
+      lastUpdated: (new Date()).getTime(),
     });
 
     startUpdatingTimestamps();
@@ -144,6 +144,7 @@ export default function Streams() {
   }
 
   const joinStream = async (peerId) => {
+    console.log("JOINING PEERID ", peerId);
     const rs = await viewStream(peerId);
     setRemoteStreams([rs, ...remoteStreams]);
   };
@@ -151,7 +152,7 @@ export default function Streams() {
   const getStreamRows = () => {
     return getLatestUniqueStreams().map(s => {
       return (
-        <div className="max-w-full rounded p-4 my-2 bg-gray-100 hover:bg-gray-200 overflow-hidden cursor-pointer">
+        <div onClick={() => joinStream(s.peerId)} className="max-w-full rounded p-4 my-2 bg-gray-100 hover:bg-gray-200 overflow-hidden cursor-pointer">
           {s.userId}
         </div>
       );
