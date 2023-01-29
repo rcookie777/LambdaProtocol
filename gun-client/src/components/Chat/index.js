@@ -1,15 +1,8 @@
 import '../../App.css'
 import {React, useEffect, useState, useReducer } from 'react'
-import Gun from 'gun'
 import {faker} from '@faker-js/faker'
 import CheckMessage from '../auth/checkMessage'
-
-// Port 5050 is the port of the gun server we previously created
-const gun = Gun({
-  peers: [
-    'http://localhost:5050/gun'
-  ]
-})
+import { gun } from '../../gun/gun'
 
 // The messages array will hold the chat messages
 const currentState = {
@@ -60,15 +53,15 @@ function Chat() {
   // save message to gun / send message
   const sendMessage = () => {
 
-      // a reference to the current room
-      const messagesRef = gun.get('MESSAGES')
+    // a reference to the current room
+    const messagesRef = gun.get('MESSAGES')
 
-      // the message object to be sent/saved
-      const messageObject = {
-        sender: faker.name.firstName(),
-        avatar: faker.image.avatar(),
-        content: messageText,
-        timestamp: Date().substring(16, 21)
+    // the message object to be sent/saved
+    const messageObject = {
+      sender: faker.name.firstName(),
+      avatar: faker.image.avatar(),
+      content: messageText,
+      timestamp: Date().substring(16, 21)
     }
 
     // this function sends/saves the message onto the network

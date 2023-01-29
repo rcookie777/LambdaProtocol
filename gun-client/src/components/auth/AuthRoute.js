@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { user } from "../../gun/user";
 
 const AuthRoute = ({ redirectPath = "/login", children }) => {
-    const user = localStorage.getItem("user");
-    if (!user) {
+    if (!user.is) {
       console.log("user");
       return <Navigate to={redirectPath} replace />;
     }
