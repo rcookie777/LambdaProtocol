@@ -19,12 +19,6 @@ export const fetchUserAlias = () => {
     }
 }
 
-export const setUserClass = (userClass) => {
-    console.log(userClass)
-    user.get("classes").set(userClass);
-}
-
-
 
 
 // export const fetchUser = () => {

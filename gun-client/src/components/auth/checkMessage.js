@@ -6,7 +6,7 @@ const openai_api_key = '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'
 
 async function CheckMessage(message) {
   
-  const prompt = "You are a moderator for a public college based homework help website, is the following message safe to post:" + "'"+ message +"'" + "Respond yes or no";
+  const prompt = "You are a moderator for a discussion board, is the following message neither harmul or offensive:" + "'"+ message +"'" + "Respond yes or no";
   // console.log(prompt);
   try {
     // Make the API call
