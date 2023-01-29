@@ -4,7 +4,6 @@ import { user } from "../../gun/user";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
-
 export default function SignUp() {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");

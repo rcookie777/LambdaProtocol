@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { user } from "../../gun/user";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 export default function LogIn() {
   const navigate = useNavigate();
