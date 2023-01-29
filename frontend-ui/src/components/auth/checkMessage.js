@@ -2,7 +2,7 @@
 /* eslint-disable no-template-curly-in-string */
 const axios = require('axios');
 
-const openai_api_key = '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'
+const openai_api_key = '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'
 
 async function CheckMessage(message) {
   

@@ -110,14 +110,13 @@ function Chat() {
   const sendMessage = async () => {
     // a reference to the current room
     const messagesRef = rooms.get(chatId);
-    if (user.is){
-      if(nam){
-        var send = nam
-      }
-    } else {
-       var send = faker.name.firstName()
-
-    }
+    // if (user.is){
+    //   if(nam){
+    //     var send = nam
+    //   }
+    // } else {
+    //    var send = faker.name.firstName()
+    // }
 
     console.log(CheckMessage(messageText))
 
@@ -126,7 +125,7 @@ function Chat() {
     if (valid) {
         // the message object to be sent/saved
         const messageObject = {
-          sender: send,
+          sender: faker.name.firstName(),
           avatar: faker.image.avatar(),
           content: messageText,
           timestamp: Date().substring(16, 21)
