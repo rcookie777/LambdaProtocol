@@ -10,6 +10,7 @@
     "gun": "^0.2020.1239",
     "gun-avatar": "^1.9.0",
     "openai": "^3.1.0",
+    "peerjs": "^1.4.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -18,6 +19,7 @@
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",
+    "startwin": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

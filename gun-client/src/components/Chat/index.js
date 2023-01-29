@@ -4,6 +4,7 @@ import {faker} from '@faker-js/faker'
 import CheckMessage from '../auth/checkMessage'
 import { gun } from '../../gun/gun'
 import { useParams } from 'react-router-dom'
+import Streams from '../Stream'
 
 // The messages array will hold the chat messages
 const currentState = {
@@ -94,31 +95,35 @@ function Chat() {
     setMessageText('')
   }
 
-
-  return <div className="App">
-    <main>
-      <div className='relative messages'>
-        <ul>
-          {newMessagesArray().map((msg, index) => [
-            <li key={index} className='message hover:shadow-lg hover:from-white transition duration-200 ease-in-out'>
-              <img alt='avatar' src={msg.avatar} />
-              <div>
-                {msg.content}
-                <span>{msg.sender}</span>
-              </div>
-              <div className='ml-3'>
-                <span>{msg.timestamp}</span>
-              </div>
-            </li>
-          ])}
-        </ul>
+  return (
+    <div className="App flex">
+      <div className="flex-1">
+        <div className='relative messages'>
+          <ul>
+            {newMessagesArray().map((msg, index) => [
+              <li key={index} className='message hover:shadow-lg hover:from-white transition duration-200 ease-in-out'>
+                <img alt='avatar' src={msg.avatar} />
+                <div>
+                  {msg.content}
+                  <span>{msg.sender}</span>
+                </div>
+                <div className='ml-3'>
+                  <span>{msg.timestamp}</span>
+                </div>
+              </li>
+            ])}
+          </ul>
+        </div>
+        <div className='input-box'>
+          <input placeholder='Type a message...' onChange={e => setMessageText(e.target.value)} value={messageText} />
+          <button onClick={sendMessage}>Send</button>
+        </div>
       </div>
-      <div className='input-box'>
-        <input placeholder='Type a message...' onChange={e => setMessageText(e.target.value)} value={messageText} />
-        <button onClick={sendMessage}>Send</button>
+      <div>
+        <Streams />
       </div>
-    </main>
-  </div>
+    </div>
+  )
 }
 
 export default Chat
