@@ -137,7 +137,7 @@ function Chat() {
         // clear the text field after message has been sent
         setMessageText('')
     } else {
-        toast.error('Be Nice')
+        toast.error('Message Filtered! Please follow community guidelines.')
       }
   }
 
