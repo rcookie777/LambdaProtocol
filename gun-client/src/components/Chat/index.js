@@ -3,6 +3,7 @@ import {React, useEffect, useState, useReducer } from 'react'
 import {faker} from '@faker-js/faker'
 import CheckMessage from '../auth/checkMessage'
 import { gun } from '../../gun/gun'
+import NavBar from './NavBar'
 
 // The messages array will hold the chat messages
 const currentState = {
@@ -19,9 +20,13 @@ const reducer = (state, message) => {
 function Chat() {
   const [messageText, setMessageText] = useState('')
   const [state, dispatch] = useReducer(reducer, currentState)
+  const [roomRef, setRoomRef] = useState('')
+  const defaultRoom = 'MESSAGES'
+
 
   // fires immediately the page loads
   useEffect(() => {
+    setRoomRef(defaultRoom)
     const messagesRef = gun.get('MESSAGES')
     messagesRef.map().on(m => {
       dispatch({
@@ -48,11 +53,8 @@ function Chat() {
     return formattedMessages
   }
 
-
-
   // save message to gun / send message
   const sendMessage = () => {
-
     // a reference to the current room
     const messagesRef = gun.get('MESSAGES')
 
@@ -73,8 +75,11 @@ function Chat() {
 
 
   return <div className="App">
+    <div className='sticky top-0 z-50'>
+      <NavBar room={roomRef}/>
+    </div>
     <main>
-      <div className='messages'>
+      <div className='relative messages'>
         <ul>
           {newMessagesArray().map((msg, index) => [
             <li key={index} className='message hover:shadow-lg hover:from-white transition duration-200 ease-in-out'>
