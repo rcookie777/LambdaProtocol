@@ -25,6 +25,17 @@ const reducer = (state, dispatched) => {
     case "clear":
       return { messages: [] }
       break;
+    case "modify":
+      const newarr = []
+      let message1 = dispatched.message;
+      for (const msg of state.messages) {
+        if (msg.timestamp === message1.timestamp) 
+          newarr.push({...message1});
+        else newarr.push({...msg});
+      
+      }
+      return { messages: newarr };
+    
   }
 }
 
@@ -32,7 +43,6 @@ function Chat() {
   const [messageText, setMessageText] = useState('')
   const [state, dispatch] = useReducer(reducer, currentState)
   const [chatId, setChatId] = useState("")
-  const [karma, setKarma] = useState(0)
 
   let routeParams = useParams();
   const name = user.get("name");
@@ -108,8 +118,11 @@ function Chat() {
   }
 
   
-  function giveKarma() {
-    setKarma(karma+1);
+  function giveKarma(m) {
+    dispatch({
+      action: "modify",
+      message: {karma: m.karma + 1, ...m}
+    })
   }
   
 
@@ -136,7 +149,7 @@ function Chat() {
           avatar: faker.image.avatar(),
           content: messageText,
           timestamp: Date().substring(16, 21),
-          karma: karma
+          karma: 0
         }
         // this function sends/saves the message onto the network
         messagesRef.set(messageObject)
@@ -154,7 +167,7 @@ function Chat() {
       <div className='relative messages'>
         <ul>
           {newMessagesArray().map((msg, index) => [
-            <div onClick={()=>giveKarma()}>
+            <div onClick={()=>giveKarma(msg)}>
             <li key={index} className='message hover:shadow-lg hover:from-white transition duration-200 ease-in-out'>
                 <img alt='avatar' src={msg.avatar} />
               <div>
