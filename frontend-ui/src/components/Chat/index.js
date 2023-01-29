@@ -6,7 +6,6 @@ import { gun } from '../../gun/gun'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import { user } from '../../gun/user';
-import Identicon from 'react-identicons';
 
 
 // The messages array will hold the chat messages
