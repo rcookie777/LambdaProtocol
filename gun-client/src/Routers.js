@@ -1,20 +1,21 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./views/HomePage.js";
 import Chat from "./components/Chat/index.js";
-import AuthRoute from "./components/auth/AuthRoute";
 import Signup from "./views/SignUpPage.js";
 import LoginPage from "./views/SignInPage.js";
-
-
+import Private from "./components/auth/privateRoute.js";
+import ChatRooms from "./views/ChatRooms.js";
 
 export default function Routers() {
-    return(
-    <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/signup" element={<Signup/>} />
-        <Route exact path="/login" element={<LoginPage/>} />
-        <Route element={<AuthRoute />} />
-            <Route exact path="/chat" element={<Chat />} />
-    </Routes>
+    return (
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<Signup/>} />
+            <Route path="/login" element={<LoginPage/>} />
+            <Route path="/chat" element={<ChatRooms />}>
+                <Route path="" element={<h1 className="p-8">Click on a class name to open helproom</h1>} />
+                <Route path=":chatId" element={<Chat />} />
+            </Route>
+        </Routes>
     )
 }
