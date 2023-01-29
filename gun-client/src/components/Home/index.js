@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import { NavLink } from "react-router-dom";
-
+import {user, fetchUserPub, fetchUserAlias} from "../../gun/user";
+import 'gun-avatar'
 
 export default function Home() {
+    console.log(fetchUserPub())
     return (
-
         <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
             <div class="container flex flex-wrap items-center justify-between mx-auto">
                 <a href="https://flowbite.com/" class="flex items-center">
@@ -12,9 +13,10 @@ export default function Home() {
                     <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Pizza</span>
                 </a>
                 <div class="flex items-center md:order-2">
+                    
                     <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                         <span class="sr-only">Open user menu</span>
-                        {/* <img class="w-8 h-8 rounded-full" src="" alt="user photo"> </img> */}
+                        {user.is ? <div class="flex items-center"> {fetchUserAlias()} </div> : <div class="flex items-center"> Log Out </div>}
                     </button>
                     {/* <!-- Dropdown menu --> */}
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
@@ -42,15 +44,22 @@ export default function Home() {
                             <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Home</a>
                         </li>
                         <li>
-                            <NavLink to='/signup'> <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Sign Up</a></NavLink>
+                            <NavLink to='/signup'> <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" >Sign Up</a></NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/login'> <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" >Login</a></NavLink>
                         </li>
                         <li>
                             <NavLink to='/chat' ><div class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white">Ask Question</div></NavLink>
                         </li>
 
                     </ul>
+                    
                 </div>
             </div>
+        <div>
+        </div>
         </nav>
+
     )
 }
