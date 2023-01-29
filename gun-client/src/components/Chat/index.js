@@ -3,7 +3,7 @@ import {React, useEffect, useState, useReducer } from 'react'
 import {faker} from '@faker-js/faker'
 import CheckMessage from '../auth/checkMessage'
 import { gun } from '../../gun/gun'
-import NavBar from './NavBar'
+import { useParams } from 'react-router-dom'
 
 // The messages array will hold the chat messages
 const currentState = {
@@ -11,32 +11,67 @@ const currentState = {
 }
 
 // This reducer function will edit the messages array
-const reducer = (state, message) => {
-  return {
-    messages: [message, ...state.messages]
+const reducer = (state, dispatched) => {
+  switch (dispatched.action) {
+    case "add":
+      let { message } = dispatched;
+      return {
+        messages: [message, ...state.messages]
+      }
+      break;
+    case "clear":
+      return { messages: [] }
+      break;
   }
 }
 
 function Chat() {
   const [messageText, setMessageText] = useState('')
   const [state, dispatch] = useReducer(reducer, currentState)
-  const [roomRef, setRoomRef] = useState('')
-  const defaultRoom = 'MESSAGES'
+  const [chatId, setChatId] = useState("")
+  let routeParams = useParams();
+
+  const rooms = gun.get("rooms");
+
+  const loadRoomMessages = (newChatId) => {
+    const messagesRef = rooms.get(newChatId)
+    messagesRef.map().on(m => {
+      dispatch({
+        action: "add",
+        message: {
+          sender: m.sender,
+          avatar: m.avatar,
+          content: m.content,
+          timestamp: m.timestamp
+        }
+      })
+    });
+  };
+
+  useEffect(() => {
+    console.log("calling set chat id");
+
+    const newChatId = routeParams.chatId;
+    setChatId(routeParams.chatId);
+
+    dispatch({ action: "clear" });
+
+    loadRoomMessages(newChatId);
+  }, [routeParams]);
 
 
   // fires immediately the page loads
-  useEffect(() => {
-    setRoomRef(defaultRoom)
-    const messagesRef = gun.get('MESSAGES')
-    messagesRef.map().on(m => {
-      dispatch({
-        sender: m.sender,
-        avatar: m.avatar,
-        content: m.content,
-        timestamp: m.timestamp
-      })
-    })
-  }, [])
+  // useEffect(() => {
+  //   const messagesRef = rooms.get(chatId)
+  //   messagesRef.map().on(m => {
+  //     dispatch({
+  //       sender: m.sender,
+  //       avatar: m.avatar,
+  //       content: m.content,
+  //       timestamp: m.timestamp
+  //     })
+  //   })
+  // }, [routeParams])
 
   // remove duplicate messages
   const newMessagesArray = () => {
@@ -56,7 +91,7 @@ function Chat() {
   // save message to gun / send message
   const sendMessage = () => {
     // a reference to the current room
-    const messagesRef = gun.get('MESSAGES')
+    const messagesRef = rooms.get(chatId);
 
     // the message object to be sent/saved
     const messageObject = {
@@ -75,9 +110,6 @@ function Chat() {
 
 
   return <div className="App">
-    <div className='sticky top-0 z-50'>
-      <NavBar room={roomRef}/>
-    </div>
     <main>
       <div className='relative messages'>
         <ul>

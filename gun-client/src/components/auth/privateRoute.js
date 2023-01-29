@@ -8,18 +8,17 @@ function render(c) {
 }
 
 const Private = (Component) => {
-  const [hasSession, setHasSession] = useState(false);
+  // const [hasSession, setHasSession] = useState(false);
 
-  useEffect(() => {
-    (function () {
-      const sessionStatus = user.is;
+  // useEffect(() => {
+  //   (function () {
+  //     const sessionStatus = user.is;
 
-      setHasSession(Boolean(sessionStatus));
-    })();
-  }, [hasSession, Component]);
+  //     setHasSession(Boolean(sessionStatus));
+  //   })();
+  // }, [hasSession, Component]);
 
-
-  return hasSession ? render(Component) : <Navigate to="/login" />;
+  return user.is ? render(Component) : <Navigate to="/login" />;
 };
 
 export default Private;

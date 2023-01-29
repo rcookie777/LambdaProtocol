@@ -11,7 +11,11 @@ export default function LogIn() {
 
   function login(e) {
     e.preventDefault();
+
+    console.log("Logging in ");
+
     user.auth(username, password, (ack) => {
+        console.log("Logged in");
         if (ack && ack.err) {
             toast.error(ack.err);
             return;
@@ -38,7 +42,7 @@ export default function LogIn() {
             <form className="space-y-4 md:space-y-6" action="#">
               <div>
                 <label
-                  for="username"
+                  htmlFor="username"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Username
@@ -56,7 +60,7 @@ export default function LogIn() {
               </div>
               <div>
                 <label
-                  for="password"
+                  htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Password
@@ -83,12 +87,12 @@ export default function LogIn() {
                 Don't have an account?{" "}
                 <NavLink to="/signup">
                   {" "}
-                  <div
+                  <p
                     // href="#"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Sign Up
-                  </div>
+                  </p>
                 </NavLink>
               </p>
             </form>
